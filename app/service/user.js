@@ -12,5 +12,10 @@ module.exports = app => {
         user,
       };
     }
+    * create(user) {
+      // 插入
+      const result = yield app.getWriteConnection().insert('vic_user', user);
+      return result.affectedRows === 1;
+    }
   };
 };

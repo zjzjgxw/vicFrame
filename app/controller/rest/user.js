@@ -29,13 +29,14 @@ module.exports = app => {
       };
       // 校验参数
       ctx.validate(createRule);
+      ctx.logger.info('some request data: %j', ctx.request.body);
       const { data } = ctx.request.body;
       const success = yield ctx.service.user.create({ name: data.name });
-      ctx.logger.info('some request data: %j', ctx.request.body);
+
       if (success) {
-        ctx.body = { success: 1 };
+        ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
       } else {
-        ctx.body = { success: 0 };
+        ctx.body = ctx.helper.returnError(2001);
       }
       ctx.status = 201;
     }

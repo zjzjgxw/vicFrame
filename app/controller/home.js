@@ -10,12 +10,19 @@ module.exports = app => {
       ctx.body = user;
     }
     * home() {
-      const { ctx } = this;
+      const { ctx, app } = this;
       // set
       // yield app.redis.set('foo', 'bar');
       // get
       // ctx.body = yield app.redis.get('foo');
-      ctx.body = ctx.session.user;
+      const config = {
+        appId: 'wxa340dfe999102e4e',
+        appsecret: '14d6235650c89f1478cdf074923396e6',
+      };
+      const wechat = app.weChat.create(config, app);
+      const result = yield wechat.getAccessToken();
+
+      ctx.body = result;
     }
   }
   return HomeController;

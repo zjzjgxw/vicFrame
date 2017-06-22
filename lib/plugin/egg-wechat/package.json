@@ -1,0 +1,7 @@
+{
+  "name": "egg-wechat",
+  "eggPlugin": {
+    "name": "weChat"
+  },
+  "version": "1.0.0"
+}

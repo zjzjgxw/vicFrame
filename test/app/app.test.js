@@ -110,4 +110,42 @@ describe('test wechat', () => {
     const res = yield wechat.createMenu(menu, accessToken);
     assert(res.errcode !== 0);
   });
+  it('right sendmessage wechat ', function* () {
+    const config = {
+      appId: 'wxa340dfe999102e4e',
+      appsecret: '14d6235650c89f1478cdf074923396e6',
+    };
+    const wechat = app.weChat.create(config, app);
+    const result = yield wechat.getAccessToken();
+    assert(result.access_token);
+    const accessToken = result.access_token;
+    const postData = {
+      touser: 'og5lbwazLfHFPEoBWwkToWflclVI',
+      msgtype: 'text',
+      text: {
+        content: 'hello,world',
+      },
+    };
+    const res = yield wechat.sendMessage(postData, accessToken);
+    assert(res.errcode === 0);
+  });
+  it('wrong sendmessage wechat ', function* () {
+    const config = {
+      appId: 'wxa340dfe999102e4e',
+      appsecret: '14d6235650c89f1478cdf074923396e6',
+    };
+    const wechat = app.weChat.create(config, app);
+    const result = yield wechat.getAccessToken();
+    assert(result.access_token);
+    const accessToken = result.access_token;
+    const postData = {
+      touser: 'og5lbwazLfHFdEoBWwkToWflclVI',
+      msgtype: 'text',
+      text: {
+        content: 'hello,world',
+      },
+    };
+    const res = yield wechat.sendMessage(postData, accessToken);
+    assert(res.errcode !== 0);
+  });
 });

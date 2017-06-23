@@ -23,29 +23,14 @@ module.exports = app => {
       const result = yield wechat.getAccessToken();
       if (result.hasOwnProperty('access_token')) {
         const accessToken = result.access_token;
-        const menu = {
-          button: [
-            {
-              type: 'click',
-              name: '今日歌曲',
-              key: 'V1001_TODAY_MUSIC',
-            },
-            {
-              name: '菜单',
-              sub_button: [
-                {
-                  type: 'view',
-                  name: '搜索',
-                  url: 'http://www.soso.com/',
-                },
-                {
-                  type: 'click',
-                  name: '赞一下我们',
-                  key: 'V1001_GOOD',
-                }],
-            }],
+        const postData = {
+          touser: 'og5lbwazLfHFPEoBWwkToWflclVI',
+          msgtype: 'text',
+          text: {
+            content: 'hello,world',
+          },
         };
-        const res = yield wechat.createMenu(menu, accessToken);
+        const res = yield wechat.sendMessage(postData, accessToken);
         ctx.body = res;
       } else {
         ctx.body = result;

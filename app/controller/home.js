@@ -21,8 +21,35 @@ module.exports = app => {
       };
       const wechat = app.weChat.create(config, app);
       const result = yield wechat.getAccessToken();
-
-      ctx.body = result;
+      if (result.hasOwnProperty('access_token')) {
+        const accessToken = result.access_token;
+        const menu = {
+          button: [
+            {
+              type: 'click',
+              name: '今日歌曲',
+              key: 'V1001_TODAY_MUSIC',
+            },
+            {
+              name: '菜单',
+              sub_button: [
+                {
+                  type: 'view',
+                  name: '搜索',
+                  url: 'http://www.soso.com/',
+                },
+                {
+                  type: 'click',
+                  name: '赞一下我们',
+                  key: 'V1001_GOOD',
+                }],
+            }],
+        };
+        const res = yield wechat.createMenu(menu, accessToken);
+        ctx.body = res;
+      } else {
+        ctx.body = result;
+      }
     }
   }
   return HomeController;

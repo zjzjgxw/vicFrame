@@ -148,4 +148,52 @@ describe('test wechat', () => {
     const res = yield wechat.sendMessage(postData, accessToken);
     assert(res.errcode !== 0);
   });
+  it('right get template list wechat ', function* () {
+    const config = {
+      appId: 'wxa340dfe999102e4e',
+      appsecret: '14d6235650c89f1478cdf074923396e6',
+    };
+    const wechat = app.weChat.create(config, app);
+    const result = yield wechat.getAccessToken();
+    assert(result.access_token);
+    const accessToken = result.access_token;
+    const res = yield wechat.getTemplateList(accessToken);
+    assert(res.template_list);
+  });
+  it('wrong get template list wechat ', function* () {
+    const config = {
+      appId: 'wxa340dfe999102e4e',
+      appsecret: '14d6235650c89f1478cdf074923396e6',
+    };
+    const wechat = app.weChat.create(config, app);
+    const result = yield wechat.getAccessToken();
+    assert(result.access_token);
+    const accessToken = result.access_token;
+    const res = yield wechat.getTemplateList(accessToken + '1');
+    assert(res.errcode);
+    assert(res.errcode !== 0);
+  });
+  it('right send template msg wechat ', function* () {
+    const config = {
+      appId: 'wxa340dfe999102e4e',
+      appsecret: '14d6235650c89f1478cdf074923396e6',
+    };
+    const wechat = app.weChat.create(config, app);
+    const result = yield wechat.getAccessToken();
+    assert(result.access_token);
+    const accessToken = result.access_token;
+    const postData = {
+      touser: 'og5lbwazLfHFPEoBWwkToWflclVI',
+      template_id: 'Xdaul_DwDdERnMTZ8AN48RvRfzDlV3gNzJuVMMeToLs',
+      url: 'http://weixin.qq.com/download',
+      data: {
+        first: {
+          value: '恭喜你购买成功！',
+          color: '#173177',
+        },
+      },
+    };
+    const res = yield wechat.sendTemplateMsg(postData, accessToken);
+    assert(res.errcode === 0);
+  });
 });

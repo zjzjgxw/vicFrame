@@ -25,12 +25,16 @@ module.exports = app => {
         const accessToken = result.access_token;
         const postData = {
           touser: 'og5lbwazLfHFPEoBWwkToWflclVI',
-          msgtype: 'text',
-          text: {
-            content: 'hello,world',
+          template_id: 'Xdaul_DwDdERnMTZ8AN48RvRfzDlV3gNzJuVMMeToLs',
+          url: 'http://weixin.qq.com/download',
+          data: {
+            first: {
+              value: '恭喜你购买成功！',
+              color: '#173177',
+            },
           },
-        };
-        const res = yield wechat.sendMessage(postData, accessToken);
+        }
+        const res = yield wechat.sendTemplateMsg(postData, accessToken);
         ctx.body = res;
       } else {
         ctx.body = result;

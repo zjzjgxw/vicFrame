@@ -34,5 +34,12 @@ $ EGG_SERVER_ENV=prod npm start
 - 使用 `npm test` 来执行单元测试。
 - 使用 `npm run autod` 来自动检测依赖更新，详细参见 [autod](https://www.npmjs.com/package/autod) 。
 
+### 功能模块
+- 使用 egg-mysql 来链接mysql数据库并进行操作
+- 使用 egg-redis 来操作redis 进行缓存
+- 使用 egg-session-redis 来将session保存到redis中
+- 使用 egg-validate 来验证输入参数
+- 使用 egg-wechat 来集成微信公众号的相关接口 （egg-wechat是自己写的插件，目前正在完善中，完善后会以插件形式单独发布）
+
 
 [egg]: https://eggjs.org

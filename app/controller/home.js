@@ -23,18 +23,7 @@ module.exports = app => {
       const result = yield wechat.getAccessToken();
       if (result.hasOwnProperty('access_token')) {
         const accessToken = result.access_token;
-        const postData = {
-          touser: 'og5lbwazLfHFPEoBWwkToWflclVI',
-          template_id: 'Xdaul_DwDdERnMTZ8AN48RvRfzDlV3gNzJuVMMeToLs',
-          url: 'http://weixin.qq.com/download',
-          data: {
-            first: {
-              value: '恭喜你购买成功！',
-              color: '#173177',
-            },
-          },
-        }
-        const res = yield wechat.sendTemplateMsg(postData, accessToken);
+        const res = yield wechat.getMaterialList('image', 0, 20, accessToken);
         ctx.body = res;
       } else {
         ctx.body = result;

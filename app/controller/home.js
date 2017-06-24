@@ -23,7 +23,8 @@ module.exports = app => {
       const result = yield wechat.getAccessToken();
       if (result.hasOwnProperty('access_token')) {
         const accessToken = result.access_token;
-        const res = yield wechat.getMaterialList('image', 0, 20, accessToken);
+        const filePath = '/Users/vic/Desktop/test.jpg';
+        const res = yield wechat.addTempMaterial('image', filePath, accessToken);
         ctx.body = res;
       } else {
         ctx.body = result;

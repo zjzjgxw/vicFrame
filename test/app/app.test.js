@@ -190,6 +190,19 @@ describe('test wechat', () => {
     const res = yield wechat.addMaterial('image', filePath, accessToken);
     assert(res.media_id);
   });
+  it('right add image temp material wechat ', function* () {
+    const config = {
+      appId: 'wxa340dfe999102e4e',
+      appsecret: '14d6235650c89f1478cdf074923396e6',
+    };
+    const wechat = app.weChat.create(config, app);
+    const result = yield wechat.getAccessToken();
+    assert(result.access_token);
+    const accessToken = result.access_token;
+    const filePath = '/Users/vic/Desktop/test.jpg';
+    const res = yield wechat.addTempMaterial('image', filePath, accessToken);
+    assert(res.media_id);
+  });
   it('right add video material wechat ', function* () {
     const config = {
       appId: 'wxa340dfe999102e4e',

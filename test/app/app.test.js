@@ -232,4 +232,16 @@ describe('test wechat', () => {
     const res = yield wechat.getMaterialList('image', 0, 20, accessToken);
     assert(res.total_count);
   });
+  it('right get jsapiTicket wechat ', function* () {
+    const config = {
+      appId: 'wxa340dfe999102e4e',
+      appsecret: '14d6235650c89f1478cdf074923396e6',
+    };
+    const wechat = app.weChat.create(config, app);
+    const result = yield wechat.getAccessToken();
+    assert(result.access_token);
+    const accessToken = result.access_token;
+    const res = yield wechat.getJsapiTicket(accessToken);
+    assert(res.errcode === 0);
+  });
 });

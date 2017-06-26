@@ -4,10 +4,13 @@ module.exports = app => {
   class HomeController extends app.Controller {
     * index() {
       const { ctx } = this;
-      const user = yield ctx.service.user.find();
-      ctx.logger.info('some request data: %j', user.user[0]);
-      ctx.session.user = user;
-      ctx.body = user;
+      // const user = yield ctx.service.user.find();
+      // ctx.logger.info('some request data: %j', user.user[0]);
+      // ctx.session.user = user;
+      // ctx.body = user;
+      const data = { name: 'egg' };
+      // render a template, path relate to `app/view`
+      yield ctx.render('home/index.tpl', data);
     }
     * home() {
       const { ctx, app } = this;
@@ -23,9 +26,10 @@ module.exports = app => {
       const result = yield wechat.getAccessToken();
       if (result.hasOwnProperty('access_token')) {
         const accessToken = result.access_token;
-        const filePath = '/Users/vic/Desktop/test.jpg';
-        const res = yield wechat.addTempMaterial('image', filePath, accessToken);
-        ctx.body = res;
+        const res = yield wechat.getJsapiTicket(accessToken);
+        const { ticket } = res;
+        const ret = yield wechat.getSignJs(ticket, 'http://localhost:7002/home');
+        ctx.body = ret;
       } else {
         ctx.body = result;
       }

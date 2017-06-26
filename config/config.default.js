@@ -6,6 +6,12 @@ module.exports = appInfo => {
   // should change to your own
   config.keys = appInfo.name + '_1497704659432_959';
 
+  config.view = {
+    defaultViewEngine: 'nunjucks',
+    mapping: {
+      '.tpl': 'nunjucks',
+    },
+  };
   // add your config here
   config.i18n = {
     defaultLocale: 'zh-CN',

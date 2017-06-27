@@ -26,10 +26,12 @@ module.exports = app => {
       const result = yield wechat.getAccessToken();
       if (result.hasOwnProperty('access_token')) {
         const accessToken = result.access_token;
-        const res = yield wechat.getJsapiTicket(accessToken);
-        const { ticket } = res;
-        const ret = yield wechat.getSignJs(ticket, 'http://localhost:7002/home');
-        ctx.body = ret;
+        const ret = yield wechat.getUserOpenidList('', accessToken);
+        const { data } = ret;
+        const { openid } = data;
+        const rets = yield wechat.getUserInfoList(openid, accessToken);
+
+        ctx.body = rets;
       } else {
         ctx.body = result;
       }

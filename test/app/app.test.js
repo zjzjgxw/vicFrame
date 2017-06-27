@@ -127,7 +127,7 @@ describe('test wechat', () => {
       },
     };
     const res = yield wechat.sendMessage(postData, accessToken);
-    assert(res.errcode);
+    assert(res.errcode === 0);
   });
   it('right get template list wechat ', function* () {
     const config = {
@@ -243,5 +243,71 @@ describe('test wechat', () => {
     const accessToken = result.access_token;
     const res = yield wechat.getJsapiTicket(accessToken);
     assert(res.errcode === 0);
+  });
+  it('right get userInfo wechat ', function* () {
+    const config = {
+      appId: 'wxa340dfe999102e4e',
+      appsecret: '14d6235650c89f1478cdf074923396e6',
+    };
+    const wechat = app.weChat.create(config, app);
+    const result = yield wechat.getAccessToken();
+    assert(result.access_token);
+    const accessToken = result.access_token;
+    const openid = 'og5lbwazLfHFPEoBWwkToWflclVI';
+    const res = yield wechat.getUserInfo(openid, accessToken);
+    assert(res.subscribe);
+  });
+  it('right wrong userInfo wechat ', function* () {
+    const config = {
+      appId: 'wxa340dfe999102e4e',
+      appsecret: '14d6235650c89f1478cdf074923396e6',
+    };
+    const wechat = app.weChat.create(config, app);
+    const result = yield wechat.getAccessToken();
+    assert(result.access_token);
+    const accessToken = result.access_token;
+    const openid = 'og5lbwazLfHFPEoBWwkToWflclV2';
+    const res = yield wechat.getUserInfo(openid, accessToken);
+    assert(res.errcode);
+  });
+  it('right right openid list wechat ', function* () {
+    const config = {
+      appId: 'wxa340dfe999102e4e',
+      appsecret: '14d6235650c89f1478cdf074923396e6',
+    };
+    const wechat = app.weChat.create(config, app);
+    const result = yield wechat.getAccessToken();
+    assert(result.access_token);
+    const accessToken = result.access_token;
+    const ret = yield wechat.getUserOpenidList('', accessToken);
+    assert(ret.total);
+  });
+  it('right right openid list wechat ', function* () {
+    const config = {
+      appId: 'wxa340dfe999102e4e',
+      appsecret: '14d6235650c89f1478cdf074923396e6',
+    };
+    const wechat = app.weChat.create(config, app);
+    const result = yield wechat.getAccessToken();
+    assert(result.access_token);
+    const accessToken = result.access_token;
+    const ret = yield wechat.getUserOpenidList('', accessToken);
+    assert(ret.total);
+  });
+  it('right right userinfo list wechat ', function* () {
+    const config = {
+      appId: 'wxa340dfe999102e4e',
+      appsecret: '14d6235650c89f1478cdf074923396e6',
+    };
+    const wechat = app.weChat.create(config, app);
+    const result = yield wechat.getAccessToken();
+    assert(result.access_token);
+    const accessToken = result.access_token;
+    const ret = yield wechat.getUserOpenidList('', accessToken);
+    assert(ret.total);
+    const { data } = ret;
+    const { openid } = data;
+    const rets = yield wechat.getUserInfoList(openid, accessToken);
+    assert(rets.user_info_list);
   });
 });

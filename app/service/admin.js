@@ -58,5 +58,33 @@ module.exports = app => {
       const result = yield app.getWriteConnection().update('vic_admin', data);
       return result.affectedRows === 1;
     }
+    * addRole(name) {
+      if (typeof name !== 'string') {
+        return false;
+      }
+      if (name.length >= 50 || name.length <= 0) {
+        return false;
+      }
+      const role = yield app.getReadConnection().get('vic_admin_role', { name });
+      if (role !== null) {
+        return false;
+      }
+      const result = yield app.getWriteConnection().insert('vic_admin_role', { name });
+      return result.affectedRows === 1;
+    }
+    * updateRole(id, name) {
+      if (typeof name !== 'string') {
+        return false;
+      }
+      if (name.length >= 50 || name.length <= 0) {
+        return false;
+      }
+      const role = yield app.getReadConnection().get('vic_admin_role', { id });
+      if (role === null) {
+        return false;
+      }
+      const result = yield app.getWriteConnection().update('vic_admin_role', { id, name });
+      return result.affectedRows === 1;
+    }
   };
 };

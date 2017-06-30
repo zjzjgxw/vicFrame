@@ -5,11 +5,15 @@
 
 module.exports = app => {
   return class Admin extends app.Service {
-    * createAdmin(info) {
+    * createAdmin(info = {}) {
       if (!info.hasOwnProperty('name') || info.name === '' || info.name === undefined) {
         return false;
       }
       if (!info.hasOwnProperty('password') || info.password === '' || info.password === undefined || info.password.length < 6) {
+        return false;
+      }
+      const user = yield app.getReadConnection().get('vic_admin', { name: info.name });
+      if (user !== null) {
         return false;
       }
       const { ctx } = this;
@@ -27,6 +31,31 @@ module.exports = app => {
         role_id: 0,
       }
       const result = yield app.getWriteConnection().insert('vic_admin', data);
+      return result.affectedRows === 1;
+    }
+    * updateAdmin(id, info = {}) {
+      if (id === undefined) {
+        return false;
+      }
+      const user = yield app.getReadConnection().get('vic_admin', { id });
+      if (user === null) {
+        return false;
+      }
+      const data = {};
+      if (info.hasOwnProperty('password') && info.password.length >= 6) {
+        const crypto = require('crypto');
+        const md5 = crypto.createHash('md5');
+        const password = md5.update(user.name + info.password + user.encrypt).digest('hex');
+        data.password = password;
+      }
+      if (info.hasOwnProperty('email') && info.email !== '') {
+        data.email = info.email;
+      }
+      if (Object.keys(data).length === 0) {
+        return false;
+      }
+      data.id = user.id;
+      const result = yield app.getWriteConnection().update('vic_admin', data);
       return result.affectedRows === 1;
     }
   };

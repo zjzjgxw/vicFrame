@@ -29,6 +29,29 @@ module.exports = app => {
       }
       ctx.status = 201;
     }
+    * update() {
+      const { ctx } = this;
+      const createRule = {
+        data: {
+          type: 'object',
+          rule: {
+            email: { type: 'email', required: false },
+            password: { type: 'string', required: false, min: 6 },
+          },
+        },
+      };
+      // 校验参数
+      ctx.validate(createRule);
+      const { data } = ctx.request.body;
+      const id = ctx.params.id;
+      const success = yield ctx.service.admin.updateAdmin(id, data);
+      if (success) {
+        ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
+      } else {
+        ctx.body = ctx.helper.returnError(2002);
+      }
+      ctx.status = 201;
+    }
   }
   return AdminController;
 };

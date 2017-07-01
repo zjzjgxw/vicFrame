@@ -45,6 +45,17 @@ module.exports = app => {
       }
       ctx.status = 201;
     }
+    * destroy() {
+      const { ctx } = this;
+      const id = ctx.params.id;
+      const success = yield ctx.service.admin.deleteRole(id);
+      if (success) {
+        ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
+      } else {
+        ctx.body = ctx.helper.returnError(2004);
+      }
+      ctx.status = 201;
+    }
   }
   return RoleController;
 };

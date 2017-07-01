@@ -86,5 +86,9 @@ module.exports = app => {
       const result = yield app.getWriteConnection().update('vic_admin_role', { id, name });
       return result.affectedRows === 1;
     }
+    * deleteRole(id) {
+      const result = yield app.getWriteConnection().delete('vic_admin_role', { id });
+      return result.affectedRows === 1;
+    }
   };
 };

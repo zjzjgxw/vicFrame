@@ -29,5 +29,6 @@ $ EGG_SERVER_ENV=prod npm start
 - Use `npm test` to run unit test.
 - Use `npm run autod` to auto detect dependencies upgrade, see [autod](https://www.npmjs.com/package/autod) for more detail.
 
-
+Welcome to provide advices.
+My wechat : zjzjgxw
 [egg]: https://eggjs.org

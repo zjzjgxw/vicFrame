@@ -41,5 +41,5 @@ $ EGG_SERVER_ENV=prod npm start
 - 使用 egg-validate 来验证输入参数
 - 使用 egg-wechat 来集成微信公众号的相关接口 （egg-wechat是自己写的插件，目前正在完善中，完善后会以插件形式单独发布）
 
-
+欢迎提供建议！ 联系方式 微信：zjzjgxw 
 [egg]: https://eggjs.org

@@ -29,7 +29,7 @@ module.exports = app => {
         pid: 0,
         is_admin: 1,
         role_id: 0,
-      }
+      };
       const result = yield app.getWriteConnection().insert('vic_admin', data);
       return result.affectedRows === 1;
     }

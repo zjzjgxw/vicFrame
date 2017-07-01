@@ -1,25 +1,28 @@
 'use strict';
 
 module.exports = app => {
-  class RoleController extends app.Controller {
+  class SubAccountController extends app.Controller {
     * create() {
       const { ctx } = this;
       const createRule = {
         data: {
           type: 'object',
           rule: {
+            pid: { type: 'int', min: 0 },
             name: { type: 'string', min: 2, max: 30 },
+            password: { type: 'string', min: 6, max: 50 },
+            email: { type: 'email', required: false },
           },
         },
       };
       // 校验参数
       ctx.validate(createRule);
       const { data } = ctx.request.body;
-      const success = yield ctx.service.admin.addRole(data.name);
+      const success = yield ctx.service.admin.addSubAccount(data);
       if (success) {
         ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
       } else {
-        ctx.body = ctx.helper.returnError(2003);
+        ctx.body = ctx.helper.returnError(2006);
       }
     }
     * update() {
@@ -28,7 +31,9 @@ module.exports = app => {
         data: {
           type: 'object',
           rule: {
-            name: { type: 'string', max: 30, min: 2 },
+            password: { type: 'string', max: 50, min: 6, required: false },
+            email: { type: 'email', required: false },
+            role_id: { type: 'int', min: 0, required: false },
           },
         },
       };
@@ -36,23 +41,23 @@ module.exports = app => {
       ctx.validate(createRule);
       const { data } = ctx.request.body;
       const id = ctx.params.id;
-      const success = yield ctx.service.admin.updateRole(id, data.name);
+      const success = yield ctx.service.admin.updateSubAccount(id, data);
       if (success) {
         ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
       } else {
-        ctx.body = ctx.helper.returnError(2004);
+        ctx.body = ctx.helper.returnError(2007);
       }
     }
     * destroy() {
       const { ctx } = this;
       const id = ctx.params.id;
-      const success = yield ctx.service.admin.deleteRole(id);
+      const success = yield ctx.service.admin.deleteSubAccount(id);
       if (success) {
         ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
       } else {
-        ctx.body = ctx.helper.returnError(2005);
+        ctx.body = ctx.helper.returnError(2008);
       }
     }
   }
-  return RoleController;
+  return SubAccountController;
 };

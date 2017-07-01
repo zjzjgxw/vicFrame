@@ -6,5 +6,6 @@
 module.exports = app => {
   app.resources('admin', '/admin/admin', app.controller.admin.admin);
   app.resources('admin', '/admin/role', app.controller.admin.role);
+  app.resources('admin', '/admin/subAccount', app.controller.admin.subAccount);
 
 };

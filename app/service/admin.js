@@ -160,5 +160,73 @@ module.exports = app => {
       const result = yield app.getWriteConnection().query('update vic_admin set is_del = 1 where id = ? AND is_admin = 0', [ id ]);
       return result.affectedRows === 1;
     }
+    // 权限组
+    * addPowerGroup(name) {
+      if (typeof name !== 'string') {
+        return false;
+      }
+      const role = yield app.getReadConnection().get('vic_admin_power_group', { name });
+      if (role !== null) {
+        return false;
+      }
+      const result = yield app.getWriteConnection().insert('vic_admin_power_group', { name });
+      return result.affectedRows === 1;
+    }
+    * updatePowerGroup(id, name) {
+      if (typeof name !== 'string') {
+        return false;
+      }
+      const info = yield app.getReadConnection().get('vic_admin_power_group', { id });
+      if (info === null) {
+        return false;
+      }
+      const result = yield app.getWriteConnection().update('vic_admin_power_group', { id, name });
+      return result.affectedRows === 1;
+    }
+    * deletePowerGroup(id) {
+      const result = yield app.getWriteConnection().update('vic_admin_power_group', { id, is_del: 1 });
+      return result.affectedRows === 1;
+    }
+    // 权限
+    * addPower(info) {
+      const group = yield app.getReadConnection().get('vic_admin_power_group', { id: info.group_id });
+      if (group === null) {
+        return false;
+      }
+      const data = {
+        name: info.name,
+        method: info.method,
+        router: info.router,
+        group_id: info.group_id,
+      };
+      const result = yield app.getWriteConnection().insert('vic_admin_power', data);
+      return result.affectedRows === 1;
+    }
+    * updatePower(id, info) {
+      if (id === undefined) {
+        return false;
+      }
+      const power = yield app.getReadConnection().get('vic_admin_power', { id });
+      if (power === null) {
+        return false;
+      }
+      const group = yield app.getReadConnection().get('vic_admin_power_group', { id: info.group_id });
+      if (group === null) {
+        return false;
+      }
+      const data = {
+        id,
+        name: info.name,
+        method: info.method,
+        router: info.router,
+        group_id: info.group_id,
+      };
+      const result = yield app.getWriteConnection().update('vic_admin_power', data);
+      return result.affectedRows === 1;
+    }
+    * deletePower(id) {
+      const result = yield app.getWriteConnection().update('vic_admin_power', { id, is_del: 1 });
+      return result.affectedRows === 1;
+    }
   };
 };

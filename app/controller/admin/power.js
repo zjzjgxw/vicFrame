@@ -1,25 +1,28 @@
 'use strict';
 
 module.exports = app => {
-  class PowerGroupController extends app.Controller {
+  class PowerController extends app.Controller {
     * create() {
       const { ctx } = this;
       const createRule = {
         data: {
           type: 'object',
           rule: {
-            name: { type: 'string', min: 2, max: 30 },
+            name: { type: 'string', min: 2, max: 50 },
+            method: { type: 'string', min: 1, max: 50 },
+            router: { type: 'string', min: 1, max: 100 },
+            group_id: { type: 'int' },
           },
         },
       };
       // 校验参数
       ctx.validate(createRule);
       const { data } = ctx.request.body;
-      const success = yield ctx.service.admin.addPowerGroup(data.name);
+      const success = yield ctx.service.admin.addPower(data);
       if (success) {
         ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
       } else {
-        ctx.body = ctx.helper.returnError(2009);
+        ctx.body = ctx.helper.returnError(2006);
       }
     }
     * update() {
@@ -28,7 +31,10 @@ module.exports = app => {
         data: {
           type: 'object',
           rule: {
-            name: { type: 'string', max: 30, min: 2 },
+            name: { type: 'string', min: 2, max: 50 },
+            method: { type: 'string', min: 1, max: 50 },
+            router: { type: 'string', min: 1, max: 100 },
+            group_id: { type: 'int' },
           },
         },
       };
@@ -36,23 +42,23 @@ module.exports = app => {
       ctx.validate(createRule);
       const { data } = ctx.request.body;
       const id = ctx.params.id;
-      const success = yield ctx.service.admin.updatePowerGroup(id, data.name);
+      const success = yield ctx.service.admin.updatePower(id, data);
       if (success) {
         ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
       } else {
-        ctx.body = ctx.helper.returnError(2010);
+        ctx.body = ctx.helper.returnError(2007);
       }
     }
     * destroy() {
       const { ctx } = this;
       const id = ctx.params.id;
-      const success = yield ctx.service.admin.deletePowerGroup(id);
+      const success = yield ctx.service.admin.deletePower(id);
       if (success) {
         ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
       } else {
-        ctx.body = ctx.helper.returnError(2011);
+        ctx.body = ctx.helper.returnError(2008);
       }
     }
   }
-  return PowerGroupController;
+  return PowerController;
 };

@@ -5,6 +5,21 @@
 
 module.exports = app => {
   return class Admin extends app.Service {
+    * login(info) {
+      const user = yield app.getReadConnection().get('vic_admin', { name: info.name, is_del: 0 });
+      if (user === null) {
+        return false;
+      }
+      const crypto = require('crypto');
+      const md5 = crypto.createHash('md5');
+      const password = md5.update(user.name + info.password + user.encrypt).digest('hex');
+      if (password === user.password) {
+        const { ctx } = this;
+        ctx.session.adminUser = { id: user.id, name: user.name };
+        return true;
+      }
+      return false;
+    }
     * createAdmin(info = {}) {
       if (!info.hasOwnProperty('name') || info.name === '' || info.name === undefined) {
         return false;

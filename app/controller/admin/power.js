@@ -50,7 +50,12 @@ module.exports = app => {
       }
     }
     * destroy() {
+      const isLogin = this.isAdminLogin();
       const { ctx } = this;
+      if (!isLogin) {
+        ctx.body = ctx.helper.returnError(2016);
+        return;
+      }
       const id = ctx.params.id;
       const success = yield ctx.service.admin.deletePower(id);
       if (success) {

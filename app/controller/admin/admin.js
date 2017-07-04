@@ -27,7 +27,6 @@ module.exports = app => {
       } else {
         ctx.body = ctx.helper.returnError(2001);
       }
-      ctx.status = 201;
     }
     * update() {
       const { ctx } = this;
@@ -50,7 +49,32 @@ module.exports = app => {
       } else {
         ctx.body = ctx.helper.returnError(2002);
       }
-      ctx.status = 201;
+    }
+    * login() {
+      const { ctx } = this;
+      const createRule = {
+        data: {
+          type: 'object',
+          rule: {
+            name: { type: 'string' },
+            password: { type: 'string' },
+          },
+        },
+      };
+      // 校验参数
+      ctx.validate(createRule);
+      const { data } = ctx.request.body;
+      const success = yield ctx.service.admin.login(data);
+      if (success) {
+        ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
+      } else {
+        ctx.body = ctx.helper.returnError(2015);
+      }
+    }
+    * logout() {
+      const { ctx } = this;
+      ctx.session.adminUser = null;
+      ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
     }
   }
   return AdminController;

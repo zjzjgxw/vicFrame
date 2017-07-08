@@ -20,9 +20,9 @@ module.exports = app => {
       const { data } = ctx.request.body;
       const success = yield ctx.service.admin.addSubAccount(data);
       if (success) {
-        ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
+        this.retSuccess({ data: { success: 1 } });
       } else {
-        ctx.body = ctx.helper.returnError(2006);
+        this.retError(2006);
       }
     }
     * update() {
@@ -43,9 +43,9 @@ module.exports = app => {
       const id = ctx.params.id;
       const success = yield ctx.service.admin.updateSubAccount(id, data);
       if (success) {
-        ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
+        this.retSuccess({ data: { success: 1 } });
       } else {
-        ctx.body = ctx.helper.returnError(2007);
+        this.retError(2007);
       }
     }
     * destroy() {
@@ -53,9 +53,9 @@ module.exports = app => {
       const id = ctx.params.id;
       const success = yield ctx.service.admin.deleteSubAccount(id);
       if (success) {
-        ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
+        this.retSuccess({ data: { success: 1 } });
       } else {
-        ctx.body = ctx.helper.returnError(2008);
+        this.retError(2008);
       }
     }
   }

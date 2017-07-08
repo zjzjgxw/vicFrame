@@ -17,9 +17,9 @@ module.exports = app => {
       const { data } = ctx.request.body;
       const success = yield ctx.service.admin.addRole(data.name);
       if (success) {
-        ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
+        this.retSuccess({ data: { success: 1 } });
       } else {
-        ctx.body = ctx.helper.returnError(2003);
+        this.retError(2003);
       }
     }
     * update() {
@@ -38,9 +38,9 @@ module.exports = app => {
       const id = ctx.params.id;
       const success = yield ctx.service.admin.updateRole(id, data.name);
       if (success) {
-        ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
+        this.retSuccess({ data: { success: 1 } });
       } else {
-        ctx.body = ctx.helper.returnError(2004);
+        this.retError(2004);
       }
     }
     * destroy() {
@@ -48,9 +48,9 @@ module.exports = app => {
       const id = ctx.params.id;
       const success = yield ctx.service.admin.deleteRole(id);
       if (success) {
-        ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
+        this.retSuccess({ data: { success: 1 } });
       } else {
-        ctx.body = ctx.helper.returnError(2005);
+        this.retError(2005);
       }
     }
   }

@@ -17,9 +17,9 @@ module.exports = app => {
       const { data } = ctx.request.body;
       const success = yield ctx.service.admin.addPowerGroup(data.name);
       if (success) {
-        ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
+        this.retSuccess({ data: { success: 1 } });
       } else {
-        ctx.body = ctx.helper.returnError(2009);
+        this.retError(2009);
       }
     }
     * update() {
@@ -38,9 +38,9 @@ module.exports = app => {
       const id = ctx.params.id;
       const success = yield ctx.service.admin.updatePowerGroup(id, data.name);
       if (success) {
-        ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
+        this.retSuccess({ data: { success: 1 } });
       } else {
-        ctx.body = ctx.helper.returnError(2010);
+        this.retError(2010);
       }
     }
     * destroy() {
@@ -48,9 +48,9 @@ module.exports = app => {
       const id = ctx.params.id;
       const success = yield ctx.service.admin.deletePowerGroup(id);
       if (success) {
-        ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
+        this.retSuccess({ data: { success: 1 } });
       } else {
-        ctx.body = ctx.helper.returnError(2011);
+        this.retError(2011);
       }
     }
   }

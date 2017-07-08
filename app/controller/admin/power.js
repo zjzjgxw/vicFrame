@@ -20,9 +20,9 @@ module.exports = app => {
       const { data } = ctx.request.body;
       const success = yield ctx.service.admin.addPower(data);
       if (success) {
-        ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
+        this.retSuccess({ data: { success: 1 } });
       } else {
-        ctx.body = ctx.helper.returnError(2006);
+        this.retError(2006);
       }
     }
     * update() {
@@ -44,24 +44,24 @@ module.exports = app => {
       const id = ctx.params.id;
       const success = yield ctx.service.admin.updatePower(id, data);
       if (success) {
-        ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
+        this.retSuccess({ data: { success: 1 } });
       } else {
-        ctx.body = ctx.helper.returnError(2007);
+        this.retError(2006);
       }
     }
     * destroy() {
       const isLogin = this.isAdminLogin();
       const { ctx } = this;
       if (!isLogin) {
-        ctx.body = ctx.helper.returnError(2016);
+        this.retError(2016);
         return;
       }
       const id = ctx.params.id;
       const success = yield ctx.service.admin.deletePower(id);
       if (success) {
-        ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
+        this.retSuccess({ data: { success: 1 } });
       } else {
-        ctx.body = ctx.helper.returnError(2008);
+        this.retError(2008);
       }
     }
   }

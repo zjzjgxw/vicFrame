@@ -34,11 +34,10 @@ module.exports = app => {
       const success = yield ctx.service.user.create({ name: data.name });
 
       if (success) {
-        ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
+        this.retSuccess({ data: { success: 1 } });
       } else {
-        ctx.body = ctx.helper.returnError(2001);
+        this.retError(2001);
       }
-      ctx.status = 201;
     }
   }
   return UserController;

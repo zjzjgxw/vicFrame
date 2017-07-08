@@ -216,7 +216,7 @@ describe('test wechat', () => {
     const videoDes = {
       title: '测试',
       introduction: '视频简介',
-    }
+    };
     const res = yield wechat.addMaterial('video', filePath, accessToken, videoDes);
     assert(res.media_id);
   });

@@ -149,7 +149,7 @@ module.exports = app => {
       }
       const newData = {};
       if (info.hasOwnProperty('role_id')) {
-        const role = yield app.getReadConnection().get('vic_admin_role', { id: info.role_id});
+        const role = yield app.getReadConnection().get('vic_admin_role', { id: info.role_id });
         if (role === null) {
           return false;
         }

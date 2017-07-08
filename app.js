@@ -17,11 +17,11 @@ module.exports = app => {
       }
       return false;
     }
-    success(data) {
-      this.ctx.body = {
-        success: true,
-        data,
-      };
+    retSuccess(res) {
+      this.ctx.body = { code: 200, data: res.hasOwnProperty('data') ? res.data : '', msg: '' };
+    }
+    retError(code) {
+      this.ctx.body = { code, data: '', msg: this.ctx.__(code) };
     }
     notFound(msg) {
       msg = msg || 'not found';

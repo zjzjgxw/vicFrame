@@ -4,8 +4,7 @@ module.exports = app => {
   class AdminController extends app.Controller {
     * index() {
       const { ctx } = this;
-      ctx.logger.info('some request data: %j', ctx.query);
-      ctx.body = `search: ${ctx.query.name}`;
+      this.retSuccess({ data: { success: 2 } });
     }
     * create() {
       const { ctx } = this;
@@ -23,9 +22,9 @@ module.exports = app => {
       const { data } = ctx.request.body;
       const success = yield ctx.service.admin.createAdmin(data);
       if (success) {
-        ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
+        this.retSuccess({ data: { success: 1 } });
       } else {
-        ctx.body = ctx.helper.returnError(2001);
+        this.retError(2001);
       }
     }
     * update() {
@@ -45,9 +44,9 @@ module.exports = app => {
       const id = ctx.params.id;
       const success = yield ctx.service.admin.updateAdmin(id, data);
       if (success) {
-        ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
+        this.retSuccess({ data: { success: 1 } });
       } else {
-        ctx.body = ctx.helper.returnError(2002);
+        this.retError(2002);
       }
     }
     * login() {
@@ -66,15 +65,15 @@ module.exports = app => {
       const { data } = ctx.request.body;
       const success = yield ctx.service.admin.login(data);
       if (success) {
-        ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
+        this.retSuccess({ data: { success: 1 } });
       } else {
-        ctx.body = ctx.helper.returnError(2015);
+        this.retError(2015);
       }
     }
     * logout() {
       const { ctx } = this;
       ctx.session.adminUser = null;
-      ctx.body = ctx.helper.returnSuccess({ data: { success: 1 } });
+      this.retSuccess({ data: { success: 1 } });
     }
   }
   return AdminController;

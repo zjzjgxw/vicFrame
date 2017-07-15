@@ -3,14 +3,9 @@
 module.exports = app => {
   class HomeController extends app.Controller {
     * index() {
-      const { ctx } = this;
-      // const user = yield ctx.service.user.find();
-      // ctx.logger.info('some request data: %j', user.user[0]);
-      // ctx.session.user = user;
-      // ctx.body = user;
-      const data = { name: 'egg' };
-      // render a template, path relate to `app/view`
-      yield ctx.render('home/index.tpl', data);
+      console.log(this.ctx.request);
+
+      this.retSuccess({ data: { success: 1 } });
     }
     * home() {
       const { ctx, app } = this;

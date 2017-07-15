@@ -17,7 +17,7 @@ module.exports = appInfo => {
     defaultLocale: 'zh-CN',
   };
 
-  config.middleware = [ 'errorHandler' ];
+  config.middleware = [ 'errorHandler', 'apiWrapper' ];
   config.errorHandler = {
     // 非 `/api/` 路径不在这里做错误处理，留给默认的 onerror 插件统一处理
     match: '/rest',
@@ -80,9 +80,16 @@ module.exports = appInfo => {
     },
   };
   config.security = {
+    ignore: '/api/',
+    domainWhiteList: [ 'http://127.0.0.1:8000', 'http://localhost:8000' ],
+    methodnoallow: { enable: false },
     csrf: {
+      enable: false,
       ignoreJSON: true, // 默认为 false，当设置为 true 时，将会放过所有 content-type 为 `application/json` 的请求
     },
+  };
+  config.cors = {
+    allowMethods: 'GET,HEAD,PUT,OPTIONS,POST,DELETE,PATCH',
   };
   return config;
 };

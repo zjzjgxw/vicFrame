@@ -11,17 +11,4 @@ describe('test/app/controller/home.test.js', () => {
 
   afterEach(mm.restore);
   after(() => app.close());
-
-  it('should assert', () => {
-    const pkg = require('../../../package.json');
-    assert(app.config.keys.startsWith(pkg.name));
-  });
-
-  it('should GET /', () => {
-    return app.httpRequest()
-      .get('/')
-      .expect(200);
-  });
-
-
 });

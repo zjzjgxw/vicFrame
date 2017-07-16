@@ -1,0 +1,10 @@
+/**
+ * Created by vic on 2017/6/29.
+ */
+'use strict';
+
+module.exports = app => {
+  app.resources('user', '/rest/user', app.controller.rest.user);
+  app.post('/rest/login', app.controller.rest.user.login);
+  app.get('/rest/logout', app.controller.rest.user.logout);
+};

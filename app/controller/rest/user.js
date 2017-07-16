@@ -2,41 +2,55 @@
 
 module.exports = app => {
   class UserController extends app.Controller {
-    * index() {
+    * login() {
       const { ctx } = this;
-      ctx.logger.info('some request data: %j', ctx.query);
-      ctx.body = `search: ${ctx.query.name}`;
+      const createRule = {
+        data: {
+          type: 'object',
+          rule: {
+            mobile: { type: 'string', min: 10, max: 15 },
+            password: { type: 'string', min: 6, max: 50 },
+          },
+        },
+      };
+      // 校验参数
+      ctx.validate(createRule);
+      const { data } = ctx.request.body;
+      const code = yield ctx.service.user.login(data);
+      if (code === 200) {
+        this.retSuccess({ data: { success: 1 } });
+      } else {
+        this.retError(code);
+      }
     }
-    * new() {
+    * logout() {
       const { ctx } = this;
-      // set
-      // yield app.redis.set('foo', 'bar');
-      // get
-      // ctx.body = yield app.redis.get('foo');
-      ctx.body = { id: 1 };
+      ctx.session.user = null;
+      this.retSuccess({ data: { success: 1 } });
     }
-    // 处理post 请求
     * create() {
       const { ctx } = this;
       const createRule = {
         data: {
           type: 'object',
           rule: {
-            name: 'string',
-            short_name: 'string',
+            mobile: { type: 'string', min: 10, max: 15 },
+            password: { type: 'string', min: 6, max: 50 },
           },
         },
       };
       // 校验参数
       ctx.validate(createRule);
-      ctx.logger.info('some request data: %j', ctx.request.body);
       const { data } = ctx.request.body;
-      const success = yield ctx.service.user.create({ name: data.name });
-
-      if (success) {
+      const isMobile = ctx.helper.checkMobile(data.mobile);
+      if (!isMobile) {
+        this.retError(6003);
+      }
+      const code = yield ctx.service.user.create(data);
+      if (code === 200) {
         this.retSuccess({ data: { success: 1 } });
       } else {
-        this.retError(2001);
+        this.retError(code);
       }
     }
   }

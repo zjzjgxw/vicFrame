@@ -11,35 +11,20 @@ describe('test/app/service/user.test.js', () => {
 
   afterEach(mm.restore);
   after(() => app.close());
-  it('func find', function* () {
-    // 创建 ctx
-    const ctx = app.mockContext();
-    // 通过 ctx 访问到 service.user
-    const user = yield ctx.service.user.find();
-    assert(user);
-    assert(user.user.name === 'gxw');
-  });
-
-  it('func create success', function* () {
-    // 创建 ctx
-    const ctx = app.mockContext();
-    // 通过 ctx 访问到 service.user
-    const success = yield ctx.service.user.create({ name: 'hello' });
-    assert(success === true);
-  });
-
-  it('func create falied', function* () {
-    // 创建 ctx
-    const ctx = app.mockContext();
-    // 通过 ctx 访问到 service.user
-    let success = yield ctx.service.user.create({ name: '' });
-    assert(success === false);
-
-    success = yield ctx.service.user.create({});
-    assert(success === false);
-
-    success = yield ctx.service.user.create({ name: undefined });
-    assert(success === false);
-  });
+  // it('func login success', function* () {
+  //   // 创建 ctx
+  //   const ctx = app.mockContext();
+  //   // 通过 ctx 访问到 service.user
+  //   const data = {
+  //     mobile: '15088629567',
+  //     password: '123456',
+  //   };
+  //   assert(ctx.service);
+  //   assert(ctx.service.user);
+  //
+  //   const code = yield ctx.service.user.login(data);
+  //   assert(code === 200);
+  //
+  // });
 
 });

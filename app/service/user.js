@@ -16,6 +16,16 @@ module.exports = app => {
       if (password === user.password) {
         const { ctx } = this;
         ctx.session.user = user;
+        try {
+          const data = {
+            ip: ctx.request.ip,
+            login_time: ctx.helper.getNowSysTime() / 1000,
+          };
+          yield app.getWriteConnection().update('vic_user', data, { where: { id: user.id } });
+        } catch (err) {
+          ctx.logger.warn('login update error: %j', err);
+        }
+
         return 200;
       }
       return 6004;
@@ -38,6 +48,24 @@ module.exports = app => {
       };
       const result = yield app.getWriteConnection().insert('vic_user', data);
       return result.affectedRows === 1 ? 200 : 6002;
+    }
+    * update(user, info) {
+      const data = {};
+      const column = [ 'name', 'img_top', 'sex', 'job', 'city', 'email' ];
+      for (const key in info) {
+        if (column.indexOf(key) !== -1) {
+          data[key] = info[key];
+        }
+      }
+      if (Object.keys(data).length === 0) {
+        return 200;
+      }
+      try {
+        const result = yield app.getWriteConnection().update('vic_user', data, { where: { id: user.id } });
+        return result.affectedRows === 1 ? 200 : 6002;
+      } catch (err) {
+        return 6002;
+      }
     }
   };
 };

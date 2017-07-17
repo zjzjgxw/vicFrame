@@ -26,5 +26,34 @@ describe('test/app/service/user.test.js', () => {
   //   assert(code === 200);
   //
   // });
+  it('func update success', function* () {
+    // 创建 ctx
+    const ctx = app.mockContext();
+    // 通过 ctx 访问到 service.user
+    const data = {
+      name: '15xssw',
+      password: '123456',
+    };
+    const user = {
+      id: '3',
+    };
+    const code = yield ctx.service.user.update(user, data);
+    assert(code === 200);
+
+  });
+  it('func update failed', function* () {
+    // 创建 ctx
+    const ctx = app.mockContext();
+    // 通过 ctx 访问到 service.user
+    const data = {
+      name: '15xssw',
+      password: '123456',
+    };
+    const user = {
+      id: '5',
+    };
+    const code = yield ctx.service.user.update(user, data);
+    assert(code === 6002);
+  });
 
 });

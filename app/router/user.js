@@ -5,6 +5,7 @@
 
 module.exports = app => {
   app.resources('user', '/rest/user', app.controller.rest.user);
+  app.post('/rest/user/imgs', app.controller.rest.user.uploadImg);
   app.post('/rest/login', app.controller.rest.user.login);
   app.get('/rest/logout', app.controller.rest.user.logout);
 };

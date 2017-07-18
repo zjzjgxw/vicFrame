@@ -56,4 +56,30 @@ describe('test/app/service/user.test.js', () => {
     assert(code === 6002);
   });
 
+  it('func uploadImg success', function* () {
+    // 创建 ctx
+    const ctx = app.mockContext();
+    // 通过 ctx 访问到 service.user
+    const data = {
+      imgs: [ '1.jpg', '2.png', '3.jpg' ],
+    };
+    const user = {
+      id: 3,
+    };
+    const code = yield ctx.service.user.uploadImg(user, data);
+    assert(code === 200);
+  });
+  it('func uploadImg fail', function* () {
+    // 创建 ctx
+    const ctx = app.mockContext();
+    // 通过 ctx 访问到 service.user
+    const data = {
+      imgs: [],
+    };
+    const user = {
+      id: 3,
+    };
+    const code = yield ctx.service.user.uploadImg(user, data);
+    assert(code === 6007);
+  });
 });

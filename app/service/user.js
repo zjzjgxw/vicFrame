@@ -67,5 +67,31 @@ module.exports = app => {
         return 6002;
       }
     }
+    * uploadImg(user, info) {
+      const { imgs } = info;
+      const { ctx } = this;
+      if (imgs.length === 0) {
+        return 6007;
+      }
+      const conn = yield app.getWriteConnection().beginTransaction(); // 初始化事务
+      try {
+        yield conn.delete('vic_user_img', { id: user.id });
+        const row = [];
+        imgs.forEach(function(item) {
+          const data = {
+            id: user.id,
+            img_url: item,
+          };
+          row.push(data);
+        });
+        yield conn.insert('vic_user_img', row);
+        yield conn.commit(); // 提交事务
+      } catch (err) {
+        ctx.logger.error(err);
+        yield conn.rollback(); // 一定记得捕获异常后回滚事务！！
+        return 6007;
+      }
+      return 200;
+    }
   };
 };

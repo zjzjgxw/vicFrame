@@ -5,4 +5,5 @@ module.exports = app => {
   app.get('/home', 'home.home');
   require('./router/admin')(app);
   require('./router/user')(app);
+  require('./router/information')(app);
 };

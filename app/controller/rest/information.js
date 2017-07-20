@@ -48,6 +48,37 @@ module.exports = app => {
         this.retError(code);
       }
     }
+    // 点赞
+    * nice() {
+      const { ctx } = this;
+      const id = ctx.params.id;
+      const user = ctx.session.user;
+      if (user === null || typeof (user) === 'undefined') {
+        this.retError(6005);
+        return;
+      }
+      const code = yield ctx.service.information.nice(user.id, id);
+      if (code === 200) {
+        this.retSuccess({ data: { success: 1 } });
+      } else {
+        this.retError(code);
+      }
+    }
+    * bad() {
+      const { ctx } = this;
+      const id = ctx.params.id;
+      const user = ctx.session.user;
+      if (user === null || typeof (user) === 'undefined') {
+        this.retError(6005);
+        return;
+      }
+      const code = yield ctx.service.information.bad(user.id, id);
+      if (code === 200) {
+        this.retSuccess({ data: { success: 1 } });
+      } else {
+        this.retError(code);
+      }
+    }
   }
   return InformationController;
 };

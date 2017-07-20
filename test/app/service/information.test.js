@@ -48,4 +48,27 @@ describe('test/app/service/information.test.js', () => {
     const code = yield ctx.service.information.delete(user.id, id);
     assert(code === 200);
   });
+
+  it('func nice Information ', function* () {
+    // 创建 ctx
+    const ctx = app.mockContext();
+    // 通过 ctx 访问到 service.user
+    const id = 1;
+    const user = {
+      id: 3,
+    };
+    const code = yield ctx.service.information.nice(user.id, id);
+    assert(code === 7003);
+  });
+  it('func bad Information ', function* () {
+    // 创建 ctx
+    const ctx = app.mockContext();
+    // 通过 ctx 访问到 service.user
+    const id = 1;
+    const user = {
+      id: 3,
+    };
+    const code = yield ctx.service.information.bad(user.id, id);
+    assert(code === 7005);
+  });
 });

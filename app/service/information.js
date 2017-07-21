@@ -41,8 +41,7 @@ module.exports = app => {
       const { ctx } = this;
       const conn = yield app.getWriteConnection().beginTransaction(); // 初始化事务
       try {
-        yield conn.delete('vic_information', { id, uid });
-        yield conn.delete('vic_information_img', { id });
+        yield conn.update('vic_information', { is_del: 1 }, { where: { id, uid } });
         yield conn.commit(); // 提交事务
       } catch (err) {
         ctx.logger.error(err);

@@ -71,4 +71,45 @@ describe('test/app/service/information.test.js', () => {
     const code = yield ctx.service.information.bad(user.id, id);
     assert(code === 7005);
   });
+  // it('func create Information comment ', function* () {
+  //   // 创建 ctx
+  //   const ctx = app.mockContext();
+  //   // 通过 ctx 访问到 service.user
+  //   const data = {
+  //     information_id: 1,
+  //     content: '你好啊',
+  //     reply_uid: 2,
+  //   };
+  //   const user = {
+  //     id: 3,
+  //   };
+  //   const code = yield ctx.service.comment.create(user.id, data);
+  //   assert(code === 200);
+  // });
+  it('func delete Information comment ', function* () {
+    // 创建 ctx
+    const ctx = app.mockContext();
+    // 通过 ctx 访问到 service.user
+    const data = {
+      id: 4,
+    };
+    const user = {
+      id: 3,
+    };
+    const code = yield ctx.service.comment.delete(user.id, data.id);
+    assert(code === 200);
+  });
+  it('func delete Information comment fail ', function* () {
+    // 创建 ctx
+    const ctx = app.mockContext();
+    // 通过 ctx 访问到 service.user
+    const data = {
+      id: 4,
+    };
+    const user = {
+      id: 4,
+    };
+    const code = yield ctx.service.comment.delete(user.id, data.id);
+    assert(code === 7008);
+  });
 });

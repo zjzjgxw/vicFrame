@@ -82,4 +82,30 @@ describe('test/app/service/user.test.js', () => {
     const code = yield ctx.service.user.uploadImg(user, data);
     assert(code === 6007);
   });
+  it('func collect Information success', function* () {
+    // 创建 ctx
+    const ctx = app.mockContext();
+    // 通过 ctx 访问到 service.user
+    const data = {
+      information_id: 2,
+    };
+    const user = {
+      id: 1,
+    };
+    const code = yield ctx.service.collect.create(user.id, data);
+    assert(code === 200 || code === 7010);
+  });
+  it('func cancle collect Information success', function* () {
+    // 创建 ctx
+    const ctx = app.mockContext();
+    // 通过 ctx 访问到 service.user
+    const data = {
+      information_id: 2,
+    };
+    const user = {
+      id: 1,
+    };
+    const code = yield ctx.service.collect.delete(user.id, data.information_id);
+    assert(code === 200);
+  });
 });

@@ -5,6 +5,30 @@
 
 module.exports = app => {
   return class Information extends app.Service {
+    * index(city = '上海', page = 0, page_size = 10) {
+      // 这里还没考虑好防注入要怎么做 http://127.0.0.1:7001/rest/information?city=上海' AND content = 'ss &page=0&page_size=5 类似这样的url会导致查询失败
+      const offset = page * page_size;
+      const sql = `SELECT a.id,a.uid,a.add_time,a.content,a.city,a.nice,a.bad,b.name,b.img_top,group_concat(c.img_url) as imgs FROM vic_information a
+      LEFT JOIN vic_user b ON a.uid = b.id
+      LEFT JOIN vic_information_img c ON a.id = c.id
+      WHERE a.city = '${city}' AND a.is_del = 0
+      GROUP BY a.id
+      ORDER BY a.add_time DESC
+      LIMIT ${offset},${offset + page_size}`;
+      try {
+        const conn = app.getReadConnection();
+        const res = yield conn.query(sql);
+        const data = {
+          list: res,
+          count: res.length,
+        };
+        return { code: 200, data };
+      } catch (err) {
+        const { ctx } = this;
+        ctx.logger.error(err);
+        return { code: 1000 };
+      }
+    }
     * create(uid, info) {
       const { ctx } = this;
       const data = {

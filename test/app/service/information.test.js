@@ -112,4 +112,14 @@ describe('test/app/service/information.test.js', () => {
     const code = yield ctx.service.comment.delete(user.id, data.id);
     assert(code === 7008);
   });
+  it('func get Information list success ', function* () {
+    // 创建 ctx
+    const ctx = app.mockContext();
+    // 通过 ctx 访问到 service.user
+    const city = '上海';
+    const page = 0;
+    const page_size = 5;
+    const res = yield ctx.service.information.index(city, page, page_size);
+    assert(res.code === 200);
+  });
 });

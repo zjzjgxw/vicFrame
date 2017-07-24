@@ -108,4 +108,14 @@ describe('test/app/service/user.test.js', () => {
     const code = yield ctx.service.collect.delete(user.id, data.information_id);
     assert(code === 200);
   });
+  it('func get collect Information list success', function* () {
+    // 创建 ctx
+    const ctx = app.mockContext();
+    // 通过 ctx 访问到 service.user
+    const user = {
+      id: 1,
+    };
+    const res = yield ctx.service.collect.index(user.id, 0, 10);
+    assert(res.code === 200);
+  });
 });

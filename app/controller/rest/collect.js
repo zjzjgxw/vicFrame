@@ -2,6 +2,21 @@
 
 module.exports = app => {
   class CollectController extends app.Controller {
+    * index() {
+      const { ctx } = this;
+      const { page, page_size } = ctx.query;
+      const user = ctx.session.user;
+      if (user === null || typeof (user) === 'undefined') {
+        this.retError(6005);
+        return;
+      }
+      const res = yield ctx.service.collect.index(1, parseInt(page), parseInt(page_size));
+      if (res.code === 200) {
+        this.retSuccess({ data: res.data });
+      } else {
+        this.retError(res.code);
+      }
+    }
     * create() {
       const { ctx } = this;
       const createRule = {

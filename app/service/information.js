@@ -14,7 +14,31 @@ module.exports = app => {
       WHERE a.city = '${city}' AND a.is_del = 0
       GROUP BY a.id
       ORDER BY a.add_time DESC
-      LIMIT ${offset},${offset + page_size}`;
+      LIMIT ${offset},${page_size}`;
+      try {
+        const conn = app.getReadConnection();
+        const res = yield conn.query(sql);
+        const data = {
+          list: res,
+          count: res.length,
+        };
+        return { code: 200, data };
+      } catch (err) {
+        const { ctx } = this;
+        ctx.logger.error(err);
+        return { code: 1000 };
+      }
+    }
+    // 获取某个用户的发布过的信息
+    * list(uid, page = 0, page_size = 10) {
+      const offset = page * page_size;
+      const sql = `SELECT a.id,a.uid,a.add_time,a.content,a.city,a.nice,a.bad,b.name,b.img_top,group_concat(c.img_url) as imgs FROM vic_information a
+      LEFT JOIN vic_user b ON a.uid = b.id
+      LEFT JOIN vic_information_img c ON a.id = c.id
+      WHERE a.uid = ${uid} AND a.is_del = 0
+      GROUP BY a.id
+      ORDER BY a.add_time DESC
+      LIMIT ${offset},${page_size}`;
       try {
         const conn = app.getReadConnection();
         const res = yield conn.query(sql);

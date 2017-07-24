@@ -109,6 +109,17 @@ module.exports = app => {
         this.retError(code);
       }
     }
+    // 某个用户发布过的信息
+    * informations() {
+      const { ctx } = this;
+      const { uid, page, page_size } = ctx.query;
+      const res = yield ctx.service.information.list(parseInt(uid), parseInt(page), parseInt(page_size));
+      if (res.code === 200) {
+        this.retSuccess({ data: res.data });
+      } else {
+        this.retError(res.code);
+      }
+    }
   }
   return UserController;
 };

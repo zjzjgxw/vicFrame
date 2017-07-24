@@ -122,4 +122,24 @@ describe('test/app/service/information.test.js', () => {
     const res = yield ctx.service.information.index(city, page, page_size);
     assert(res.code === 200);
   });
+  it('func get user Information list success ', function* () {
+    // 创建 ctx
+    const ctx = app.mockContext();
+    // 通过 ctx 访问到 service.user
+    const uid = 3;
+    const page = 0;
+    const page_size = 5;
+    const res = yield ctx.service.information.list(uid, page, page_size);
+    assert(res.code === 200);
+  });
+  it('func get user Information list failed ', function* () {
+    // 创建 ctx
+    const ctx = app.mockContext();
+    // 通过 ctx 访问到 service.user
+    const uid = undefined;
+    const page = 0;
+    const page_size = 5;
+    const res = yield ctx.service.information.list(uid, page, page_size);
+    assert(res.code === 1000);
+  });
 });

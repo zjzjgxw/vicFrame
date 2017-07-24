@@ -9,4 +9,5 @@ module.exports = app => {
   app.post('/rest/user/imgs', app.controller.rest.user.uploadImg);
   app.post('/rest/login', app.controller.rest.user.login);
   app.get('/rest/logout', app.controller.rest.user.logout);
+  app.get('/rest/user/informations', app.controller.rest.user.informations);
 };

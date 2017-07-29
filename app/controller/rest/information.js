@@ -4,7 +4,7 @@ module.exports = app => {
   class InformationController extends app.Controller {
     * index() {
       const { ctx } = this;
-      const { city, page, page_size } = ctx.query;
+      const { city, page = 0, page_size = 10 } = ctx.query;
       const res = yield ctx.service.information.index(city, parseInt(page), parseInt(page_size));
       if (res.code === 200) {
         this.retSuccess({ data: res.data });

@@ -16,6 +16,7 @@ module.exports = app => {
       // 校验参数
       ctx.validate(createRule);
       const { data } = ctx.request.body;
+      console.log(data);
       const code = yield ctx.service.user.login(data);
       if (code === 200) {
         this.retSuccess({ data: { success: 1 } });
@@ -27,6 +28,24 @@ module.exports = app => {
       const { ctx } = this;
       ctx.session.user = null;
       this.retSuccess({ data: { success: 1 } });
+    }
+    * checkLogin() {
+      const { ctx } = this;
+      if (ctx.session.user === null || ctx.session.user === undefined) {
+        this.retError(6005);
+      } else {
+        this.retSuccess({});
+      }
+    }
+    * show() {
+      const { ctx } = this;
+      const id = ctx.params.id;
+      const res = yield ctx.service.user.show(id);
+      if (res.code === 200) {
+        this.retSuccess({ data: res.data });
+      } else {
+        this.retError(res.code);
+      }
     }
     * create() {
       const { ctx } = this;

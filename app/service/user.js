@@ -30,6 +30,16 @@ module.exports = app => {
       }
       return 6004;
     }
+    * show(id) {
+      const user = yield app.getReadConnection().select('vic_user', {
+        where: { id },
+        columns: [ 'id', 'name', 'img_top', 'sex', 'job', 'city', 'email' ],
+      });
+      if (user === null) {
+        return { code: 6008 };
+      }
+      return { code: 200, data: user };
+    }
     * create(info) {
       const user = yield app.getReadConnection().get('vic_user', { mobile: info.mobile });
       if (user !== null) {

@@ -30,12 +30,15 @@ module.exports = app => {
     }
     * checkLogin() {
       const { ctx } = this;
-      console.log(ctx.session.user);
-
       if (ctx.session.user === null || ctx.session.user === undefined) {
         this.retError(6005);
       } else {
-        this.retSuccess({});
+        const res = yield ctx.service.user.show(ctx.session.user.id);
+        if (res.code === 200) {
+          this.retSuccess({ data: res.data });
+        } else {
+          this.retError(res.code);
+        }
       }
     }
     * show() {

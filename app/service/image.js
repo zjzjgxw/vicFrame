@@ -14,8 +14,16 @@ module.exports = app => {
       const base64Data = base64Img.replace(/^data:image\/\w+;base64,/, '');
       const dataBuffer = new Buffer(base64Data, 'base64');
       const fileName = new Date().getTime() + 'vic.' + fileType;
-      const filepath = path.join(this.app.config.baseDir, `app/public/uploads/${fileName}`);
-      console.log(filepath);
+      const dirName = formatTime();
+      try {
+        const isExistDir = yield existDir(path.join(this.app.config.baseDir, `app/public/uploads/${dirName}`));
+        if (!isExistDir) { // 目录不存在
+          fs.mkdirSync(path.join(this.app.config.baseDir, `app/public/uploads/${dirName}`), '0755');
+        }
+      } catch (err) {
+        ctx.logger.warn('mkdir file error: %j', err);
+      }
+      const filepath = path.join(this.app.config.baseDir, `app/public/uploads/${dirName}/${fileName}`);
       try {
         yield saveImage(dataBuffer, filepath);
       } catch (err) {
@@ -25,6 +33,22 @@ module.exports = app => {
     }
   };
 };
+
+function formatTime() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const day = today.getDate();
+  return year.toString() + month.toString() + day.toString();
+}
+
+function existDir(dirPath) {
+  return new Promise(resolve => {
+    fs.exists(dirPath, function(result) {
+      resolve(result);
+    });
+  });
+}
 
 function saveImage(dataBuffer, filepath) {
   return new Promise((resolve, reject) => {

@@ -29,7 +29,8 @@ module.exports = app => {
       } catch (err) {
         ctx.logger.warn('upload file error: %j', err);
       }
-      return 200;
+      const retPath = `/public/uploads/${dirName}/${fileName}`;
+      return { code: 200, filePath: retPath };
     }
   };
 };

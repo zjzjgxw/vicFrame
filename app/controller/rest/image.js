@@ -5,11 +5,11 @@ module.exports = app => {
     * create() {
       const { ctx } = this;
       const { data } = ctx.request.body;
-      const code = yield ctx.service.image.create(data.imgUrl);
-      if (code === 200) {
-        this.retSuccess({ data: { success: 1 } });
+      const res = yield ctx.service.image.create(data.imgUrl);
+      if (res.code === 200) {
+        this.retSuccess({ data: { filePath: res.filePath } });
       } else {
-        this.retError(code);
+        this.retError(res.code);
       }
     }
   }

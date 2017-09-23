@@ -58,6 +58,7 @@ module.exports = app => {
       const data = {
         uid,
         content: info.content,
+        province: info.province,
         city: info.city,
         add_time: ctx.helper.getNowSysTime() / 1000,
       };

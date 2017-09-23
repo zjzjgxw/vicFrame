@@ -21,6 +21,7 @@ module.exports = app => {
             content: { type: 'string', allowEmpty: true, max: 500, required: false },
             imgs: { type: 'array', itemType: 'string', max: 9, required: false },
             city: { type: 'string', min: 1, max: 50, required: true },
+            province: { type: 'string', min: 1, max: 50, required: true },
           },
         },
       };

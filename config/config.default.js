@@ -17,6 +17,14 @@ module.exports = appInfo => {
     defaultLocale: 'zh-CN',
   };
 
+  config.bodyParser = {
+    enable: true,
+    encoding: 'utf8',
+    formLimit: '100kb',
+    jsonLimit: '10mb',
+    strict: true,
+  };
+
   config.middleware = [ 'errorHandler', 'apiWrapper' ];
   config.errorHandler = {
     // 非 `/api/` 路径不在这里做错误处理，留给默认的 onerror 插件统一处理

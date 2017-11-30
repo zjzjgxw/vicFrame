@@ -43,7 +43,7 @@ module.exports = appInfo => {
         // 用户名
         user: 'root',
         // 密码
-        password: 'yjj87939036',
+        password: '',
         // 数据库名
         database: 'friend',
       },
@@ -55,7 +55,7 @@ module.exports = appInfo => {
         // 用户名
         user: 'root',
         // 密码
-        password: 'yjj87939036',
+        password: '',
         // 数据库名
         database: 'friend',
       },
@@ -69,7 +69,7 @@ module.exports = appInfo => {
       // 用户名
       user: 'root',
       // 密码
-      password: 'yjj87939036',
+      password: '',
       // 数据库名
       database: 'friend',
     },
